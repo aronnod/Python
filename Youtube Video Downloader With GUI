@@ -1,0 +1,50 @@
+//Youtube Video Downloader With GUI
+//Opens a Windows Application, that lets the user paste in a Youtube Video, and it downloades the video
+
+import customtkinter
+from pytube import YouTube
+import pyperclip
+
+def paste():
+    url = pyperclip.paste()
+    entry1.set(url)
+
+def handle_button_click():
+    url = entry1.get()
+    video = YouTube(url)
+    label2.text = video.title
+    label.text = "Access the video's thumbnail " + video.thumbnail_url
+    video = video.streams.get_highest_resolution()
+    download_that(video)
+
+def download_that(video):
+    video.download()
+
+customtkinter.set_appearance_mode("system")
+customtkinter.set_default_color_theme("dark-blue")
+
+root = customtkinter.CTk()
+root.geometry("700x500")
+
+frame = customtkinter.CTkFrame(master=root)
+frame.pack(fill="both", padx=70, pady=50, expand=True)
+
+label1 = customtkinter.CTkLabel(master=frame, text="Please enter a YouTube video URL:", font=("Roboto", 30))
+label1.pack(padx=10, pady=8)
+
+entry1 = customtkinter.CTkEntry(master=frame, placeholder_text="URL")
+entry1.pack(padx=10, pady=8)
+
+button_paste = customtkinter.CTkButton(master=frame, text="Paste", command=paste)
+button_paste.pack(padx=25, pady=20)
+
+button1 = customtkinter.CTkButton(master=frame, text="Submit", command=handle_button_click)
+button1.pack(padx=25, pady=20)
+
+label2 = customtkinter.CTkLabel(master=frame, text="", font=("Roboto", 30))
+label2.pack(padx=10, pady=8)
+
+label = customtkinter.CTkLabel(master=frame, text="", font=("Roboto", 30))
+label.pack(padx=10, pady=8)
+
+root.mainloop()
