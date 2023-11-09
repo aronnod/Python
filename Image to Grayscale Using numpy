@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 
 # Open the first image
-image_path = input("Please paste the file and file directory for the file (eg. C:\\Users\\User\\Desktop\\example.png):", )
+image_path = input("Please paste the file and file directory for the file (eg. C:\\Users\\User\\Desktop\\example.png). Avoid files with spaces (or replace the spaces with _) ", )
 # image_path = "C:\\Users\\User\\Desktop\\Python Programs\\Data Science\\Whale Graphic Tester.png"      This was used to test
 
 print("Absolute Path:", os.path.abspath(image_path))
