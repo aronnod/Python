@@ -1,0 +1,32 @@
+# Convert an image to grayscale using the luminosity method
+import os
+from PIL import Image
+import numpy as np
+
+# Open the first image
+image_path = input("Please paste the file and file directory for the file (eg. C:\\Users\\User\\Desktop\\example.png):", )
+# image_path = "C:\\Users\\User\\Desktop\\Python Programs\\Data Science\\Whale Graphic Tester.png"      This was used to test
+
+print("Absolute Path:", os.path.abspath(image_path))
+
+x = Image.open(image_path)
+#print(x.size)
+
+# Convert the image to a NumPy array
+a = np.array(x)
+
+# Convert to grayscale using the luminosity method
+gray_image_array = np.dot(a[..., :3], [0.2989, 0.5870, 0.1140])
+'''the science behind it: When converting an RGB image to grayscale, we want to represent the intensity of each pixel using a single value, rather than three separate color values. The luminosity method accomplishes this by calculating a weighted average of the RGB values of each pixel. The weights used in the average are based on the sensitivity of human vision to different colors.
+The luminosity method uses the following weights for each color channel:
+Red: 0.2989
+Green: 0.5870
+Blue: 0.1140
+These weights are chosen to match the sensitivity of the human eye to different wavelengths of light. The human eye is more sensitive to green light than red or blue, and the luminosity method takes this into account.
+The formula for converting an RGB pixel to grayscale using the luminosity method is:
+Grayscale Value = 0.2989 * Red + 0.5870 * Green + 0.1140 * Blue'''
+
+# Convert the NumPy array back to an image
+gray_image = Image.fromarray(gray_image_array.astype(np.uint8), mode='L')
+
+gray_image.show()
