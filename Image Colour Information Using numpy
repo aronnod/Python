@@ -1,0 +1,67 @@
+#Takes information from an image file and figures out amount of red, green, and blue pixels, as well as where those pixels are, as well as the intensity amount of the other colours in those pixels
+#Doesn't do well with files with spaces in them (just the nature of python)
+
+import os
+from PIL import Image
+import numpy as np
+
+# Open the first image
+image_path = input("Please input a file (eg. C:\\Users\\User\\Desktop\\example.png): ", )
+x = Image.open(image_path)
+print(x.size)
+
+a = np.array(x)
+red_channel = a[:, :, 0]
+green_channel = a[:, :, 1]
+blue_channel = a[:, :, 2]
+
+
+
+# Analyze red colored pixels
+red_pixels_mask = (red_channel > 120) & (green_channel < 100) & (blue_channel < 100) #thresholds for the colours
+red_pixels_coordinates = np.column_stack(np.where(red_pixels_mask))
+
+print("Number of pixels with red color:", red_pixels_coordinates.shape[0])
+print("Coordinates of pixels with red color:")
+print(red_pixels_coordinates)
+
+# Get the green and blue channels for the red pixels
+red_pixels_green = green_channel[red_pixels_coordinates[:, 0], red_pixels_coordinates[:, 1]]
+red_pixels_blue = blue_channel[red_pixels_coordinates[:, 0], red_pixels_coordinates[:, 1]]
+
+print("Green in those channels", red_pixels_green)
+print("Blue in those channels", red_pixels_blue)
+
+
+
+# Analyze green colored pixels
+green_pixels_mask = (green_channel > 120) & (red_channel < 100) & (blue_channel < 100)
+green_pixels_coordinates = np.column_stack(np.where(green_pixels_mask))
+
+print("Number of pixels with green color:", green_pixels_coordinates.shape[0])
+print("Coordinates of pixels with green color:")
+print(green_pixels_coordinates)
+
+# Get the green channel information for the green colored pixels
+green_pixels_green = green_channel[green_pixels_coordinates[:, 0], green_pixels_coordinates[:, 1]]
+green_pixels_blue = blue_channel[green_pixels_coordinates[:, 0], green_pixels_coordinates[:, 1]]
+
+print("Green in those channels", green_pixels_green)
+print("Blue in those channels", green_pixels_blue)
+
+
+
+# Analyze blue colored pixels
+blue_pixels_mask = (blue_channel > 120) & (red_channel < 100) & (green_channel < 100)
+blue_pixels_coordinates = np.column_stack(np.where(blue_pixels_mask))
+
+print("Number of pixels with blue color:", blue_pixels_coordinates.shape[0])
+print("Coordinates of pixels with blue color:")
+print(blue_pixels_coordinates)
+
+# Get the blue channel information for the blue colored pixels
+blue_pixels_green = green_channel[blue_pixels_coordinates[:, 0], blue_pixels_coordinates[:, 1]]
+blue_pixels_blue = blue_channel[blue_pixels_coordinates[:, 0], blue_pixels_coordinates[:, 1]]
+
+print("Green in those channels", blue_pixels_green)
+print("Blue in those channels", blue_pixels_blue)
