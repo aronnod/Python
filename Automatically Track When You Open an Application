@@ -1,0 +1,42 @@
+#Automatically Track Whenever An Application is open in a spreadsheet
+#Only set up with Steam, Epic Games Launcher, and VSCode
+
+import psutil
+from openpyxl import load_workbook
+from datetime import datetime
+
+target_app = ["Code.exe", "steamwebhelper.exe", "EpicGamesLauncher.exe"]
+
+spreadsheet_location = r"C:\\Users\User\Desktop\\Python Programs\\Automation\\NotePad Spreadsheet.xlsx"
+
+current_time = datetime.now().strftime("%I:%M:%S %p")
+current_date = datetime.now().date().strftime("%m/%d/%Y")
+
+def update_spreadsheet(app):
+    for process in psutil.process_iter(attrs=['pid', 'name']):
+        if app.lower() in process.info['name'].lower(): #strictly to normalize the names into lowercase
+            wb = load_workbook(spreadsheet_location)   #open spreadsheet
+            sheet = wb.active
+
+            if app == "steamwebhelper.exe":
+                app = "Steam"
+            elif app == "Code.exe":
+                app = "VSCode"
+            elif app == "EpicGamesLauncher.exe":
+                app = "Epic Games Launcher"
+
+
+            row = sheet.max_row + 1
+            sheet.cell(row=row, column=1, value=app)
+            sheet.cell(row=row, column=2, value=current_date)
+            sheet.cell(row=row, column=3, value=current_time)
+
+            wb.save(spreadsheet_location)
+            wb.close()
+            break
+
+for app in target_app:
+    update_spreadsheet(app)
+
+
+
