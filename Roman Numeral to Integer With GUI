@@ -1,0 +1,87 @@
+# Roman Numeral to Integer With GUI
+# App widget also contains current date and time
+
+import customtkinter as ctk
+from datetime import datetime
+
+def roman_numeral_to_int(numerals):
+    x = len(numerals)
+    i = 0
+    counter = 0
+    while i < x:
+        if numerals[i] == 'I':
+            if (i + 1 < x) and (numerals[i + 1] == 'V'):
+                counter += 4
+                i += 2  # Move two steps ahead
+            elif (i + 1 < x) and (numerals[i + 1] == 'X'):
+                counter += 9
+                i += 2  # Move two steps ahead
+            else:
+                counter += 1
+                i += 1
+        elif numerals[i] == 'V':
+            counter += 5
+            i += 1
+        elif numerals[i] == 'X':
+            if (i + 1 < x) and (numerals[i + 1] == 'L'):
+                counter += 40
+                i += 2  # Move two steps ahead
+            elif (i + 1 < x) and (numerals[i + 1] == 'C'):
+                counter += 90
+                i += 2  # Move two steps ahead
+            else:
+                counter += 10
+                i += 1
+        elif numerals[i] == 'L':
+            counter += 50
+            i += 1
+        elif numerals[i] == 'C':
+            if (i + 1 < x) and (numerals[i + 1] == 'D'):
+                counter += 400
+                i += 2  # Move two steps ahead
+            elif (i + 1 < x) and (numerals[i + 1] == 'M'):
+                counter += 900
+                i += 2  # Move two steps ahead
+            else:
+                counter += 100
+                i += 1
+        elif numerals[i] == 'D':
+            counter += 500
+            i += 1
+        elif numerals[i] == 'M':
+            counter += 1000
+            i += 1
+        else:
+            counter = "INVALID"
+            break  # Exit the loop
+
+    return counter
+
+def submit_pressed():
+    numeral = entry1.get()
+    result = roman_numeral_to_int(numeral)
+    label_result.configure(text=f"Result: {result}")
+
+current_time = datetime.now().strftime("%I:%M:%S %p")
+current_date = datetime.now().date().strftime("%m/%d/%Y")
+
+window = ctk.CTk()
+window.title("CustomTKinter Practice")
+window.geometry("480x854")
+
+label_clock = ctk.CTkLabel(window, text=current_date + "\n" + current_time, text_color="black", font=("Microsoft Sans Serif", 12))
+label_clock.pack()
+
+label_numeral = ctk.CTkLabel(window, text="Please input a valid Roman Numeral!", text_color="black", font=("Microsoft Sans Serif", 20))
+label_numeral.pack(pady=20, padx=20)
+
+entry1 = ctk.CTkEntry(master=window, placeholder_text="Roman Numeral")
+entry1.pack(padx=10, pady=8)
+
+button1 = ctk.CTkButton(master=window, text="Submit", command=submit_pressed)
+button1.pack(padx=25, pady=20)
+
+label_result = ctk.CTkLabel(window, text="Result: ", text_color="black", font=("Microsoft Sans Serif", 16))
+label_result.pack(pady=10)
+
+window.mainloop()
