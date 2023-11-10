@@ -1,0 +1,26 @@
+#Invert an image
+
+
+import os
+from PIL import Image
+import numpy as np
+
+# Open the first image
+
+image_path = input("Please input a file (eg. C:\\Users\\User\\Desktop\\example.png). Avoid files with spaces (or replace the spaces with _) ", )
+#image_path = "C:\\Users\\User\\Desktop\\Python Programs\\Data Science\\Whale Graphic Tester.png"
+x = Image.open(image_path)
+#print(x.size)
+
+a = np.array(x)
+inverse_matrix_red = 255 - a[:, :, 0]
+inverse_matrix_green = 255 - a[:, :, 1]
+inverse_matrix_blue = 255 - a[:, :, 2]
+
+# Combine the inverted color channels to get the inverted image
+inverted_image_array = np.stack((inverse_matrix_red, inverse_matrix_green, inverse_matrix_blue), axis=-1)
+
+# Convert the NumPy array back to an image
+inverted_image = Image.fromarray(inverted_image_array.astype(np.uint8))
+
+inverted_image.show()
