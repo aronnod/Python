@@ -1,12 +1,13 @@
 #Takes information from an image file and figures out amount of red, green, and blue pixels, as well as where those pixels are, as well as the intensity amount of the other colours in those pixels
 #Doesn't do well with files with spaces in them (just the nature of python)
 
+
 import os
 from PIL import Image
 import numpy as np
 
 # Open the first image
-image_path = input("Please input a file (eg. C:\\Users\\User\\Desktop\\example.png): ", )
+image_path = input("Please input a file (eg. C:\\Users\\User\\Desktop\\example.png). Avoid files with spaces (or replace the spaces with _) ", )
 x = Image.open(image_path)
 print(x.size)
 
