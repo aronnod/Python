@@ -1,0 +1,12 @@
+#Get a random new joke
+#Communicates with the joke api to get a new joke
+
+from urllib import request
+import json
+
+url = "http://official-joke-api.appspot.com/random_joke"
+r = request.urlopen(url)
+
+data = json.load(r)
+print(data['setup'])
+print(data['punchline'])
