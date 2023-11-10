@@ -1,0 +1,22 @@
+#Automatic File Sorting System
+#Sorts files based off their extension type (eg. png, jpg, pdf, etc.)
+
+import os
+import shutil
+
+path = input("Enter Path: ")
+files = os.listdir(path)
+#print(files)
+
+for file in files:
+    name, ext = os.path.splitext(file)
+    #print(ext)
+
+    if os.path.exists(path+'/'+ext):
+        shutil.move(path+'/'+file, path+'/'+ext+'/'+file)   #if the folder exists, move the file to it 
+    else:
+        os.makedirs(path+'/'+ext)
+        shutil.move(path+'/'+file, path+'/'+ext+'/'+file)   #other wise create a folder and move the file there
+
+
+    
